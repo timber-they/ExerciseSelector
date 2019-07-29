@@ -66,13 +66,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         doneEntriesLv.setOnItemClickListener((adapterView, view, i, l) -> {
-            Entry entry = availableEntries.get(i);
+            Entry entry = doneEntries.get(i);
             if (entry != null)
                 showDialog(entry);
         });
 
         doneEntriesLv.setOnItemLongClickListener((adapterView, view, i, l) -> {
-            Entry entry = availableEntries.get(i);
+            Entry entry = doneEntries.get(i);
             entry.setDone(false);
             updatePreferences();
             syncViews();
@@ -303,6 +303,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<Entry> initialValues = Stream.of(
+            // 67 Exercises
+            // 13 Days
+            // ~5 exercises / day
             "1.1",
             "1.2",
             "1.3",
