@@ -2,6 +2,7 @@ package com.example.exerciseselector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -183,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     continue;
                 coll.add(entry.getDifficulty());
             } else
-                difficulties.put(sheet, Arrays.asList(entry.getDifficulty()));
+                difficulties.put(sheet, new ArrayList<>(Collections.singletonList(entry.getDifficulty())));
         }
 
         return difficulties;
