@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     private Map<String, List<Difficulty>> mapDifficulties(){
         Map<String, List<Difficulty>> difficulties = new HashMap<>();
 
-        for (final Entry entry : allEntries()) {
+        for (final Entry entry : availableEntries) {
             if (entry.getDifficulty() == Difficulty.Unknown)
                 continue;
 
