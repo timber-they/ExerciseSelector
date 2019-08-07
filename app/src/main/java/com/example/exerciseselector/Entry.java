@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
-public class Entry {
+public class Entry implements Comparable<Entry> {
     @NonNull
     private String title;
+
     private Difficulty difficulty;
+
     private boolean done;
 
     public Entry(final String title, final Difficulty difficulty, final boolean done) {
@@ -47,7 +49,7 @@ public class Entry {
 
     private static String unitSeparator = Character.toString((char) 31);
 
-    public static Entry fromString(String s){
+    public static Entry fromString(String s) {
         String[] parts = s.split(unitSeparator);
         if (parts.length != 3)
             return null;
@@ -57,5 +59,12 @@ public class Entry {
         boolean done = Boolean.parseBoolean(parts[2]);
 
         return new Entry(title, difficulty, done);
+    }
+
+    @Override
+    public int compareTo(final Entry entry) {
+        return entry == null
+                ? 1
+                : toString().compareTo(entry.toString());
     }
 }

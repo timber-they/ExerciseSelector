@@ -24,16 +24,16 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private List<Entry> availableEntries;
-
     private List<Entry> doneEntries;
 
     private EntryAdapter availableAdapter;
-
     private EntryAdapter doneAdapter;
 
     private ListView availableEntriesLv;
-
     private ListView doneEntriesLv;
+
+    private TextView availableLabel;
+    private TextView doneLabel;
 
     private Random random = new Random();
 
@@ -44,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         availableEntriesLv = findViewById(R.id.availableEntries);
         doneEntriesLv = findViewById(R.id.doneEntries);
+
+        availableLabel = findViewById(R.id.availableLabel);
+        doneLabel = findViewById(R.id.doneLabel);
 
         syncViews();
 
@@ -239,10 +242,12 @@ public class MainActivity extends AppCompatActivity {
                     availableEntries.addAll(getAvailableEntries());
                     doneEntries.addAll(getDoneEntries());
 
-                    if (availableEntries == null)
-                        availableEntries = new ArrayList<>();
-                    if (doneEntries == null)
-                        doneEntries = new ArrayList<>();
+                    int availableSize = availableEntries.size();
+                    int doneSize = doneEntries.size();
+                    int totalSize = availableSize + doneSize;
+
+                    availableLabel.setText(getString(R.string.available_text, availableSize, availableSize * 100 / totalSize));
+                    doneLabel.setText(getString(R.string.done_text, doneSize, doneSize * 100 / totalSize));
 
                     if (availableEntries.isEmpty() && doneEntries.isEmpty())
                         initialize(availableEntries);
@@ -258,8 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
                     availableEntriesLv.refreshDrawableState();
                     doneEntriesLv.refreshDrawableState();
-                }
-        );
+                });
     }
 
     private void updatePreferences() {
@@ -281,11 +285,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<Entry> getAvailableEntries() {
-        return getAllEntries().stream().filter(entry -> !entry.isDone()).collect(Collectors.toList());
+        return getAllEntries().stream().filter(entry -> !entry.isDone()).sorted().collect(Collectors.toList());
     }
 
     private List<Entry> getDoneEntries() {
-        return getAllEntries().stream().filter(Entry::isDone).collect(Collectors.toList());
+        return getAllEntries().stream().filter(Entry::isDone).sorted().collect(Collectors.toList());
     }
 
     private void set(List<Entry> entries) {
