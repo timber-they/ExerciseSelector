@@ -102,12 +102,14 @@ public class MainActivity extends AppCompatActivity {
 
     private Map<Entry, Integer> getEntriesToEntries (){
         Map<String, Integer> entriesToSheets = getEntriesToSheets();
-        List<Entry> allEntries = allEntries();
+        List<Entry> allEntries = availableEntries;
         Map<Entry, Integer> entriesToEntries = new HashMap<>(allEntries.size());
 
         for (final Entry entry : allEntries) {
             String sheet = getSheet(entry);
-            int entries = entriesToSheets.containsKey(sheet) ? entriesToSheets.get(sheet) : 2;
+            int entries = entriesToSheets.containsKey(sheet)
+                    ? entriesToSheets.get(sheet)
+                    : getEntriesToDifficulty(Difficulty.Unknown);
 
             entriesToEntries.put(entry, entries);
         }
@@ -173,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     private Map<String, List<Difficulty>> mapDifficulties(){
         Map<String, List<Difficulty>> difficulties = new HashMap<>();
 
-        for (final Entry entry : availableEntries) {
+        for (final Entry entry : doneEntries) {
             if (entry.getDifficulty() == Difficulty.Unknown)
                 continue;
 
@@ -196,10 +198,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String getSheet(String title){
         return title.split("\\.")[0];
-    }
-
-    private CharSequence getTitle(View view) {
-        return ((TextView) view.findViewById(R.id.tvTitle)).getText();
     }
 
     private void showDialog(final Entry entry) {
