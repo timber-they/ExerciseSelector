@@ -242,15 +242,15 @@ public class MainActivity extends AppCompatActivity {
                     availableEntries.addAll(getAvailableEntries());
                     doneEntries.addAll(getDoneEntries());
 
+                    if (availableEntries.isEmpty() && doneEntries.isEmpty())
+                        initialize(availableEntries);
+
                     int availableSize = availableEntries.size();
                     int doneSize = doneEntries.size();
                     int totalSize = availableSize + doneSize;
 
                     availableLabel.setText(getString(R.string.available_text, availableSize, availableSize * 100 / totalSize));
                     doneLabel.setText(getString(R.string.done_text, doneSize, doneSize * 100 / totalSize));
-
-                    if (availableEntries.isEmpty() && doneEntries.isEmpty())
-                        initialize(availableEntries);
 
                     if (availableAdapter == null || doneAdapter == null)
                         return;
@@ -306,9 +306,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<Entry> initialValues = Stream.of(
-            // 67 Exercises
-            // 13 Days
-            // ~5 exercises / day
             "1.1",
             "1.2",
             "1.3",
@@ -316,66 +313,35 @@ public class MainActivity extends AppCompatActivity {
             "2.1",
             "2.2",
             "2.3",
-            "2.4",
-            "2.5",
-            "2.6",
-            "2.7",
             "3.1",
             "3.2",
             "3.3",
-            "3.4",
             "4.1",
             "4.2",
             "4.3",
-            "4.4",
-            "4.5",
             "5.1",
             "5.2",
             "5.3",
-            "5.4",
-            "5.5",
             "6.1",
             "6.2",
-            "6.3",
-            "6.4",
-            "6.5",
             "7.1",
             "7.2",
             "7.3",
-            "7.4",
-            "7.5",
             "8.1",
             "8.2",
-            "8.3",
-            "8.4",
-            "8.5",
-            "8.6",
             "9.1",
             "9.2",
             "9.3",
-            "9.4",
-            "9.5",
-            "W.1",
-            "W.2",
-            "W.3",
-            "W.4",
-            "W.5",
-            "W.6",
             "10.1",
             "10.2",
-            "10.3",
-            "10.4",
             "11.1",
             "11.2",
             "11.3",
-            "11.4",
-            "11.5",
-            "11.6",
             "12.1",
             "12.2",
-            "12.3",
-            "12.4",
-            "12.5"
+            "13.1",
+            "13.2",
+            "13.3"
     )
             .map(s -> new Entry(s, Difficulty.Unknown, false))
             .collect(Collectors.toList());

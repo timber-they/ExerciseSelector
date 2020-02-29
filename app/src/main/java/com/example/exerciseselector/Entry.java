@@ -65,6 +65,20 @@ public class Entry implements Comparable<Entry> {
     public int compareTo(final Entry entry) {
         return entry == null
                 ? 1
-                : toString().compareTo(entry.toString());
+                : getValue().compareTo(entry.getValue());
+    }
+
+    public Integer getValue(){
+        String[] splitted = title.split("\\.");
+        if (splitted.length != 2)
+            return null;
+
+        String combined = splitted[0] + splitted[1];
+        try{
+            return Integer.parseInt(combined);
+        }
+        catch (NumberFormatException e){
+            return null;
+        }
     }
 }
