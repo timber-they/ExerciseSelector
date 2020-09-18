@@ -74,6 +74,9 @@ public class Entry implements Comparable<Entry> {
             return null;
 
         String combined = splitted[0] + splitted[1];
+        if (combined.charAt(0) > '9' || combined.charAt(0) < '0') {
+            combined = (int) combined.charAt(0) + combined.substring(1);
+        }
         try{
             return Integer.parseInt(combined);
         }

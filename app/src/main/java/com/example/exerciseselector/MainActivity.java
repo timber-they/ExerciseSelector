@@ -24,15 +24,19 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private List<Entry> availableEntries;
+
     private List<Entry> doneEntries;
 
     private EntryAdapter availableAdapter;
+
     private EntryAdapter doneAdapter;
 
     private ListView availableEntriesLv;
+
     private ListView doneEntriesLv;
 
     private TextView availableLabel;
+
     private TextView doneLabel;
 
     private Random random = new Random();
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         return weighedEntriesList.get(rnd);
     }
 
-    private List<Entry> getWeighedEntriesList(){
+    private List<Entry> getWeighedEntriesList() {
         Map<Entry, Integer> entriesToEntries = getEntriesToEntries();
         List<Entry> weighedList = new LinkedList<>();
 
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         return weighedList;
     }
 
-    private Map<Entry, Integer> getEntriesToEntries (){
+    private Map<Entry, Integer> getEntriesToEntries() {
         Map<String, Integer> entriesToSheets = getEntriesToSheets();
         List<Entry> allEntries = availableEntries;
         Map<Entry, Integer> entriesToEntries = new HashMap<>(allEntries.size());
@@ -120,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         return entriesToEntries;
     }
 
-    private Map<String, Integer> getEntriesToSheets (){
+    private Map<String, Integer> getEntriesToSheets() {
         Map<String, Difficulty> difficulties = getDifficultiesToSheets();
         Map<String, Integer> entries = new HashMap<>(difficulties.size());
 
@@ -130,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
         return entries;
     }
 
-    private int getEntriesToDifficulty (Difficulty difficulty){
-        switch (difficulty){
+    private int getEntriesToDifficulty(Difficulty difficulty) {
+        switch (difficulty) {
             case Easy:
                 return 1;
             case Neutral:
@@ -145,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         return 2;
     }
 
-    private Map<String, Difficulty> getDifficultiesToSheets(){
+    private Map<String, Difficulty> getDifficultiesToSheets() {
         Map<String, List<Difficulty>> difficulties = mapDifficulties();
         Map<String, Difficulty> res = new HashMap<>(difficulties.size());
 
@@ -163,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
             int count = 0;
 
             for (final Difficulty difficulty : counts.keySet()) {
-                if (counts.get(difficulty) > count){
+                if (counts.get(difficulty) > count) {
                     count = counts.get(difficulty);
                     maxDifficulty = difficulty;
                 }
@@ -175,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         return res;
     }
 
-    private Map<String, List<Difficulty>> mapDifficulties(){
+    private Map<String, List<Difficulty>> mapDifficulties() {
         Map<String, List<Difficulty>> difficulties = new HashMap<>();
 
         for (final Entry entry : doneEntries) {
@@ -195,11 +199,11 @@ public class MainActivity extends AppCompatActivity {
         return difficulties;
     }
 
-    private String getSheet(Entry entry){
+    private String getSheet(Entry entry) {
         return getSheet(entry.getTitle());
     }
 
-    private String getSheet(String title){
+    private String getSheet(String title) {
         return title.split("\\.")[0];
     }
 
@@ -231,39 +235,39 @@ public class MainActivity extends AppCompatActivity {
 
     private void syncViews() {
         runOnUiThread(() -> {
-                    if (availableEntries == null)
-                        availableEntries = new ArrayList<>();
-                    if (doneEntries == null)
-                        doneEntries = new ArrayList<>();
+            if (availableEntries == null)
+                availableEntries = new ArrayList<>();
+            if (doneEntries == null)
+                doneEntries = new ArrayList<>();
 
-                    availableEntries.clear();
-                    doneEntries.clear();
+            availableEntries.clear();
+            doneEntries.clear();
 
-                    availableEntries.addAll(getAvailableEntries());
-                    doneEntries.addAll(getDoneEntries());
+            availableEntries.addAll(getAvailableEntries());
+            doneEntries.addAll(getDoneEntries());
 
-                    if (availableEntries.isEmpty() && doneEntries.isEmpty())
-                        initialize(availableEntries);
+            if (availableEntries.isEmpty() && doneEntries.isEmpty())
+                initialize(availableEntries);
 
-                    int availableSize = availableEntries.size();
-                    int doneSize = doneEntries.size();
-                    int totalSize = availableSize + doneSize;
+            int availableSize = availableEntries.size();
+            int doneSize = doneEntries.size();
+            int totalSize = availableSize + doneSize;
 
-                    availableLabel.setText(getString(R.string.available_text, availableSize, availableSize * 100 / totalSize));
-                    doneLabel.setText(getString(R.string.done_text, doneSize, doneSize * 100 / totalSize));
+            availableLabel.setText(getString(R.string.available_text, availableSize, availableSize * 100 / totalSize));
+            doneLabel.setText(getString(R.string.done_text, doneSize, doneSize * 100 / totalSize));
 
-                    if (availableAdapter == null || doneAdapter == null)
-                        return;
+            if (availableAdapter == null || doneAdapter == null)
+                return;
 
-                    availableAdapter.notifyDataSetChanged();
-                    doneAdapter.notifyDataSetChanged();
+            availableAdapter.notifyDataSetChanged();
+            doneAdapter.notifyDataSetChanged();
 
-                    availableEntriesLv.invalidateViews();
-                    doneEntriesLv.invalidateViews();
+            availableEntriesLv.invalidateViews();
+            doneEntriesLv.invalidateViews();
 
-                    availableEntriesLv.refreshDrawableState();
-                    doneEntriesLv.refreshDrawableState();
-                });
+            availableEntriesLv.refreshDrawableState();
+            doneEntriesLv.refreshDrawableState();
+        });
     }
 
     private void updatePreferences() {
@@ -306,42 +310,62 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<Entry> initialValues = Stream.of(
-            "1.1",
-            "1.2",
-            "1.3",
-            "1.4",
-            "2.1",
-            "2.2",
-            "2.3",
-            "3.1",
-            "3.2",
-            "3.3",
-            "4.1",
-            "4.2",
-            "4.3",
-            "5.1",
-            "5.2",
-            "5.3",
-            "6.1",
-            "6.2",
-            "7.1",
-            "7.2",
-            "7.3",
-            "8.1",
-            "8.2",
-            "9.1",
-            "9.2",
-            "9.3",
-            "10.1",
-            "10.2",
-            "11.1",
-            "11.2",
-            "11.3",
-            "12.1",
-            "12.2",
-            "13.1",
-            "13.2",
-            "13.3"
+            "P0.1",
+            "P0.2",
+            "P0.3",
+            "P1.1",
+            "P1.2",
+            "P1.3",
+            "P1.4",
+            "P2.1",
+            "P2.2",
+            "P2.3",
+            "P3.1",
+            "P3.2",
+            "P3.3",
+            "P4.1",
+            "P4.2",
+            "P4.3",
+            "P5.1",
+            "P5.2",
+            "P6.1",
+            "P6.2",
+            "P6.3",
+            "P2.1",
+            "P2.2",
+            "P8.1",
+            "P8.2",
+            "P9.1",
+            "P9.2",
+            "P10.1",
+            "P11.1",
+            "P11.2",
+            "H1.1",
+            "H1.2",
+            "H1.3",
+            "H2.1",
+            "H2.2",
+            "H2.3",
+            "H3.1",
+            "H3.2",
+            "H3.3",
+            "H4.1",
+            "H4.2",
+            "H4.3",
+            "H5.1",
+            "H5.2",
+            "H6.1",
+            "H6.2",
+            "H6.3",
+            "H7.1",
+            "H7.2",
+            "H8.1",
+            "H8.2",
+            "H8.3",
+            "H9.1",
+            "H9.2",
+            "H10.1",
+            "H10.2"
     )
             .map(s -> new Entry(s, Difficulty.Unknown, false))
             .collect(Collectors.toList());
